@@ -1040,15 +1040,15 @@
             dialog.className = "n";
             dialog.style.display = "none";
 
-			var wrapper = doc.createElement("div");
-			wrapper.className = "n-dialog";	
+            var wrapper = doc.createElement("div");
+            wrapper.className = "n-dialog"; 
             dialog.appendChild(wrapper);
 
-			var content = doc.createElement("div");
-			content.className = "n-content";	
-			wrapper.appendChild(content);
+            var content = doc.createElement("div");
+            content.className = "n-content";    
+            wrapper.appendChild(content);
 
-			// The header.
+            // The header.
             var header = doc.createElement("div");
             header.className = "n-header";
             header.innerHTML = '<a class="close" data-dismiss="n">×</a> <h3>'+title+'</h3>';
@@ -1341,13 +1341,13 @@
 
             var makeButton = function (id, title, icon, textOp, group) {
                 var button = document.createElement("button");
-                button.className = "btn";
+                button.className = "btn btn-default";
                 var buttonImage = document.createElement("i");
                 buttonImage.className = icon;
                 button.id = id + postfix;
                 button.appendChild(buttonImage);
                 button.title = title;
-                $(button).tooltip({placement: 'bottom'})
+                $(button).tooltip({placement: 'bottom', container: 'body'})
                 if (textOp)
                     button.textOp = textOp;
                 setupButton(button, true);
