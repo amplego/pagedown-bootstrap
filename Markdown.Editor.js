@@ -965,7 +965,7 @@
     };
 
     
-    // This simulates a modal dialog box and asks for the URL when you
+    // This simulates a n dialog box and asks for the URL when you
     // click the hyperlink or image buttons.
     //
     // text: The html for the input box.
@@ -1011,7 +1011,7 @@
                     text = 'http://' + text;
             }
 
-            $(dialog).modal('hide');
+            $(dialog).n('hide');
 
             callback(text);
             return false;
@@ -1021,15 +1021,15 @@
 
         // Create the text input box form/window.
         var createDialog = function () {
-            // <div class="modal" id="myModal">
-            //   <div class="modal-header">
-            //     <a class="close" data-dismiss="modal">×</a>
+            // <div class="n" id="myModal">
+            //   <div class="n-header">
+            //     <a class="close" data-dismiss="n">×</a>
             //     <h3>Modal header</h3>
             //   </div>
-            //   <div class="modal-body">
+            //   <div class="n-body">
             //     <p>One fine body…</p>
             //   </div>
-            //   <div class="modal-footer">
+            //   <div class="n-footer">
             //     <a href="#" class="btn btn-primary">Save changes</a>
             //     <a href="#" class="btn">Close</a>
             //   </div>
@@ -1037,24 +1037,32 @@
 
             // The main dialog box.
             dialog = doc.createElement("div");
-            dialog.className = "modal hide fade";
+            dialog.className = "n";
             dialog.style.display = "none";
 
-            // The header.
+			var wrapper = doc.createElement("div");
+			wrapper.className = "n-dialog";	
+            dialog.appendChild(wrapper);
+
+			var content = doc.createElement("div");
+			content.className = "n-content";	
+			wrapper.appendChild(content);
+
+			// The header.
             var header = doc.createElement("div");
-            header.className = "modal-header";
-            header.innerHTML = '<a class="close" data-dismiss="modal">×</a> <h3>'+title+'</h3>';
-            dialog.appendChild(header);
+            header.className = "n-header";
+            header.innerHTML = '<a class="close" data-dismiss="n">×</a> <h3>'+title+'</h3>';
+            content.appendChild(header);
 
             // The body.
             var body = doc.createElement("div");
-            body.className = "modal-body";
-            dialog.appendChild(body);
+            body.className = "n-body";
+            content.appendChild(body);
 
             // The footer.
             var footer = doc.createElement("div");
-            footer.className = "modal-footer";
-            dialog.appendChild(footer);
+            footer.className = "n-footer";
+            content.appendChild(footer);
 
             // The dialog text.
             var question = doc.createElement("p");
@@ -1130,7 +1138,7 @@
                 dialog.parentNode.removeChild(dialog);
             })
 
-            $(dialog).modal()
+            $(dialog).n()
 
         }, 0);
     };
@@ -1255,8 +1263,8 @@
 
                 var chunks = state.getChunks();
 
-                // Some commands launch a "modal" prompt dialog.  Javascript
-                // can't really make a modal dialog box and the WMD code
+                // Some commands launch a "n" prompt dialog.  Javascript
+                // can't really make a n dialog box and the WMD code
                 // will continue to execute while the dialog is displayed.
                 // This prevents the dialog pattern I'm used to and means
                 // I can't do something like this:
@@ -1366,24 +1374,23 @@
             buttons.link = makeButton("wmd-link-button", "Link - Ctrl+L", "icon-link", bindCommand(function (chunk, postProcessing) {
                 return this.doLinkOrImage(chunk, postProcessing, false);
             }), group2);
-            buttons.quote = makeButton("wmd-quote-button", "Blockquote - Ctrl+Q", "icon-blockquote", bindCommand("doBlockquote"), group2);
+            buttons.quote = makeButton("wmd-quote-button", "Blockquote - Ctrl+Q", "icon-quote-left", bindCommand("doBlockquote"), group2);
             buttons.code = makeButton("wmd-code-button", "Code Sample - Ctrl+K", "icon-code", bindCommand("doCode"), group2);
             buttons.image = makeButton("wmd-image-button", "Image - Ctrl+G", "icon-picture", bindCommand(function (chunk, postProcessing) {
                 return this.doLinkOrImage(chunk, postProcessing, true);
             }), group2);
 
             group3 = makeGroup(3);
-            buttons.olist = makeButton("wmd-olist-button", "Numbered List - Ctrl+O", "icon-list", bindCommand(function (chunk, postProcessing) {
+            buttons.olist = makeButton("wmd-olist-button", "Numbered List - Ctrl+O", "icon-list-ol", bindCommand(function (chunk, postProcessing) {
                 this.doList(chunk, postProcessing, true);
             }), group3);
-            buttons.ulist = makeButton("wmd-ulist-button", "Bulleted List - Ctrl+U", "icon-bullet-list", bindCommand(function (chunk, postProcessing) {
+            buttons.ulist = makeButton("wmd-ulist-button", "Bulleted List - Ctrl+U", "icon-list-ul", bindCommand(function (chunk, postProcessing) {
                 this.doList(chunk, postProcessing, false);
             }), group3);
-            buttons.heading = makeButton("wmd-heading-button", "Heading - Ctrl+H", "icon-header", bindCommand("doHeading"), group3);
-            buttons.hr = makeButton("wmd-hr-button", "Horizontal Rule - Ctrl+R", "icon-hr-line", bindCommand("doHorizontalRule"), group3);
+            buttons.heading = makeButton("wmd-heading-button", "Heading - Ctrl+H", "icon-h-sign", bindCommand("doHeading"), group3);
             
             group4 = makeGroup(4);
-            buttons.undo = makeButton("wmd-undo-button", "Undo - Ctrl+Z", "icon-undo", null, group4);
+            buttons.undo = makeButton("wmd-undo-button", "Undo - Ctrl+Z", "icon-share-alt icon-flip-horizontal", null, group4);
             buttons.undo.execute = function (manager) { if (manager) manager.undo(); };
 
             var redoTitle = /win/.test(nav.platform.toLowerCase()) ?
